@@ -12,7 +12,7 @@ Here are all the rules within stylelint, grouped first [by category](../../VISIO
 
 ### Possible errors
 
-#### Color
+#### Color (Note needed with Atomizer)
 
 -   [`color-no-invalid-hex`](../../lib/rules/color-no-invalid-hex/README.md): Disallow invalid hex colors.
 
