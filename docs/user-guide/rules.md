@@ -16,9 +16,9 @@ Here are all the rules within stylelint, grouped first [by category](../../VISIO
 
 -   [`color-no-invalid-hex`](../../lib/rules/color-no-invalid-hex/README.md): Disallow invalid hex colors.
 
-#### Font family
+#### Font family 
 
--   [`font-family-no-duplicate-names`](../../lib/rules/font-family-no-duplicate-names/README.md): Disallow duplicate font family names.
+-   [`font-family-no-duplicate-names`](../../lib/rules/font-family-no-duplicate-names/README.md): Disallow duplicate font family names. (Note needed with Atomizer
 -   [`font-family-no-missing-generic-family-keyword`](../../lib/rules/font-family-no-missing-generic-family-keyword/README.md): Disallow missing generic families in lists of font family names.
 
 #### Function
