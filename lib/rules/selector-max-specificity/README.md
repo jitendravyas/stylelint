@@ -12,8 +12,6 @@ Visit the [Specificity Calculator](https://specificity.keegan.st) for visual rep
 
 This rule ignores selectors with variable interpolation (`#{$var}`, `@{var}`, `$(var)`).
 
-This rule ignores selectors containing the `:not()` or `:matches()` pseudo-classes.
-
 This rule resolves nested selectors before calculating the specificity of a selector.
 
 ## Options
@@ -24,7 +22,7 @@ Format is `"id,class,type"`, as laid out in the [W3C selector spec](https://draf
 
 For example, with `"0,2,0"`:
 
-The following patterns are considered warnings:
+The following patterns are considered violations:
 
 ```css
 #foo {}
@@ -49,7 +47,7 @@ The following patterns are considered warnings:
 }
 ```
 
-The following patterns are *not* considered warnings:
+The following patterns are *not* considered violations:
 
 ```css
 div {}
@@ -78,4 +76,44 @@ div {}
     color: blue;
   }
 }
+```
+
+## Optional secondary options
+
+### `ignoreSelectors: ["/regex/", "string"]`
+
+Given:
+
+```js
+["0,2,0", {
+  ignoreSelectors: [":global", ":local", "/my-/"]
+}];
+```
+
+The following patterns are *not* considered violations:
+
+```css
+:global(.foo) .bar {}
+```
+
+```css
+:local(.foo.bar)
+```
+
+```css
+:local(.foo, :global(.bar).baz)
+```
+
+The following patterns are considered violations:
+
+```css
+:global(.foo) .bar.baz {}
+```
+
+```css
+:local(.foo.bar.baz)
+```
+
+```css
+:local(.foo, :global(.bar), .foo.bar.baz)
 ```

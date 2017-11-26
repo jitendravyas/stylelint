@@ -34,6 +34,8 @@ Your plugin's rule name must be namespaced, e.g. `your-namespace/your-rule-name`
 
 In order for your plugin rule to work with the [standard configuration format](../user-guide/configuration.md#rules), `ruleFunction` should accept 2 arguments: the primary option and, optionally, a secondary options object.
 
+If your plugin rule supports [autofixing](rules.md#adding-autofixing), then `ruleFunction` should also accept a third argument: context. Also, it's highly recommended to support the `disableFix` option in your secondary options object. Within the rule, don't perform autofixing if the user has passed a `disableFix` option for your rule.
+
 `ruleFunction` should return a function that is essentially a little [PostCSS plugin](https://github.com/postcss/postcss/blob/master/docs/writing-a-plugin.md): it takes 2 arguments: the PostCSS Root (the parsed AST), and the PostCSS LazyResult. You'll have to [learn about the PostCSS API](https://github.com/postcss/postcss/blob/master/docs/api.md).
 
 ### Asynchronous rules
@@ -75,7 +77,7 @@ stylelint exposes some utilities that are useful. *For details about the APIs of
 
 ### `stylelint.utils.report`
 
-Adds warnings from your plugin to the list of warnings that stylelint will report to the user.
+Adds violations from your plugin to the list of violations that stylelint will report to the user.
 
 *Do not use PostCSS's `node.warn()` method directly.* When you use `stylelint.utils.report`, your plugin will respect disabled ranges and other possible future features of stylelint, providing a better user-experience, one that better fits the standard rules.
 
@@ -92,6 +94,7 @@ Validates the options for your rule.
 Checks CSS against a standard stylelint rule *within your own rule*. This function provides power and flexibility for plugins authors who wish to modify, constrain, or extend the functionality of existing stylelint rules.
 
 Accepts an options object and a callback that is invoked with warnings from the specified rule. The options are:
+
 -   `ruleName`: The name of the rule you are invoking.
 -   `ruleSettings`: Settings for the rule you are invoking, formatting in the same way they would be in a `.stylelintrc` configuration object.
 -   `root`: The root node to run this rule against.
@@ -160,6 +163,20 @@ In addition to the standard parsers mentioned in the ["Working on rules"](rules.
 -   [style-search](https://github.com/davidtheclark/style-search): Search CSS (and CSS-like) strings, with sensitivity to whether matches occur inside strings, comments, and functions.
 
 Have a look through [stylelint's internal utils](https://github.com/stylelint/stylelint/tree/master/lib/utils) and if you come across one that you need in your plugin, then please consider helping us extract it out into an external module.
+
+## Peer dependencies
+
+You should express, within the `peerDependencies` key (and **not** within the `dependencies` key) of your plugin's `package.json`, what version(s) of stylelint your plugin can be used with. This is to ensure that different versions of stylelint are not unexpectedly installed.
+
+For example, to express that your plugin can be used with stylelint versions 7 and 8:
+
+```json
+{
+  "peerDependencies": {
+    "stylelint": "^7.0.0 || ^8.0.0"
+  }
+}
+```
 
 ## Testing plugins
 

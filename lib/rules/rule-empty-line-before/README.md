@@ -12,6 +12,8 @@ b {}  /* ↑ */
 
 If the rule is the very first node in a stylesheet then it is ignored.
 
+The `--fix` option on the [command line](../../../docs/user-guide/cli.md#autofixing-errors) can automatically fix all of the problems reported by this rule. We recommend to enable [`indentation`](../indentation/README.md) rule for better autofixing results with this rule.
+
 ## Options
 
 `string`: `"always"|"never"|"always-multi-line"|"never-multi-line"`
@@ -20,7 +22,7 @@ If the rule is the very first node in a stylesheet then it is ignored.
 
 There *must always* be an empty line before rules.
 
-The following patterns are considered warnings:
+The following patterns are considered violations:
 
 ```css
 a {} b {}
@@ -31,7 +33,7 @@ a {}
 b {}
 ```
 
-The following patterns are *not* considered warnings:
+The following patterns are *not* considered violations:
 
 ```css
 a {}
@@ -43,7 +45,7 @@ b {}
 
 There *must never* be an empty line before rules.
 
-The following patterns are considered warnings:
+The following patterns are considered violations:
 
 ```css
 a {}
@@ -51,7 +53,7 @@ a {}
 b {}
 ```
 
-The following patterns are *not* considered warnings:
+The following patterns are *not* considered violations:
 
 ```css
 a {} b {}
@@ -66,7 +68,7 @@ b {}
 
 There *must always* be an empty line before multi-line rules.
 
-The following patterns are considered warnings:
+The following patterns are considered violations:
 
 ```css
 a {
@@ -77,7 +79,7 @@ b {
 }
 ```
 
-The following patterns are *not* considered warnings:
+The following patterns are *not* considered violations:
 
 ```css
 a {
@@ -93,7 +95,7 @@ b {
 
 There *must never* be an empty line before multi-line rules.
 
-The following patterns are considered warnings:
+The following patterns are considered violations:
 
 ```css
 a {
@@ -105,7 +107,7 @@ b {
 }
 ```
 
-The following patterns are *not* considered warnings:
+The following patterns are *not* considered violations:
 
 ```css
 a {
@@ -118,7 +120,7 @@ b {
 
 ## Optional secondary options
 
-### `except: ["after-rule", "after-single-line-comment", "inside-block-and-after-rule", "first-nested"]`
+### `except: ["after-rule", "after-single-line-comment", "inside-block-and-after-rule", "inside-block", "first-nested"]`
 
 #### `"after-rule"`
 
@@ -126,7 +128,7 @@ Reverse the primary option if the rule comes after another rule.
 
 For example, with `"always"`:
 
-The following patterns are considered warnings:
+The following patterns are considered violations:
 
 ```css
 a {}
@@ -134,7 +136,7 @@ a {}
 b {}
 ```
 
-The following patterns are *not* considered warnings:
+The following patterns are *not* considered violations:
 
 ```css
 a {}
@@ -147,7 +149,7 @@ Reverse the primary option if the rule comes after a single-line comment.
 
 For example, with `"always"`:
 
-The following patterns are considered warnings:
+The following patterns are considered violations:
 
 ```css
 /* comment */
@@ -155,7 +157,7 @@ The following patterns are considered warnings:
 a {}
 ```
 
-The following patterns are *not* considered warnings:
+The following patterns are *not* considered violations:
 
 ```css
 /* comment */
@@ -168,7 +170,7 @@ Reverse the primary option if the rule is inside a block and comes after another
 
 For example, with `"always"`:
 
-The following patterns are considered warnings:
+The following patterns are considered violations:
 
 ```css
 @media {
@@ -179,12 +181,42 @@ The following patterns are considered warnings:
 }
 ```
 
-The following patterns are *not* considered warnings:
+The following patterns are *not* considered violations:
 
 ```css
 @media {
   a {}
   b {}
+}
+```
+
+#### `"inside-block"`
+
+Reverse the primary option if the rule is inside a block.
+
+For example, with `"always"`:
+
+The following patterns are considered violations:
+
+```scss
+a {
+  color: red;
+  
+  b {
+    color: blue;
+  }
+}
+
+```
+
+The following patterns are *not* considered violations:
+
+```scss
+a {
+  color: red;
+  b {
+    color: blue;
+  }
 }
 ```
 
@@ -194,7 +226,7 @@ Reverse the primary option if the rule is the first in a block.
 
 For example, with `"always"`:
 
-The following patterns are considered warnings:
+The following patterns are considered violations:
 
 ```css
 @media {
@@ -205,7 +237,7 @@ The following patterns are considered warnings:
 }
 ```
 
-The following patterns are *not* considered warnings:
+The following patterns are *not* considered violations:
 
 ```css
 @media {
@@ -223,7 +255,7 @@ Ignore rules that come after a comment.
 
 For example, with `"always"`:
 
-The following patterns are *not* considered warnings:
+The following patterns are *not* considered violations:
 
 ```css
 /* comment */
@@ -236,7 +268,7 @@ Ignore rules that are inside a block.
 
 For example, with `"always"`:
 
-The following patterns are *not* considered warnings:
+The following patterns are *not* considered violations:
 
 ```css
 @media {
